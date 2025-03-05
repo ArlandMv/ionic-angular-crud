@@ -14,15 +14,14 @@ A modern mobile-first CRUD application for product management built with:
 
 ## Features
 
-- **Three Main Pages**
-  - 🏠 Home: Landing page with navigation
-  - 📋 Products List: Full CRUD operations
-  - ℹ️ About: Application information
-- **Product Management**
-  - ✅ Create new products
-  - 📖 Read product list
-  - ✏️ Update existing products
-  - 🗑️ Delete products
+- **Three Main Views**
+  - 🏠 Home: Landing page with favorites showcase
+  - 📋 Products: Full CRUD operations
+  - ℹ️ About: App information
+- **Core Functionality**
+  - ✅ Create/Read/Update/Delete products
+  - ⭐ Favorite tracking system
+  - 💰 Price formatting and validation
 - **Modern Architecture**
   - Signal-based state management
   - Standalone components
