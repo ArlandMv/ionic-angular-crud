@@ -112,3 +112,7 @@ graph LR
 4. Legacy systems with formal release processes
 
 This hybrid approach gives you the stability of Git Flow while maintaining the simplicity of GitHub Flow, making it ideal for Ionic/Angular mobile apps where production deployments need extra scrutiny.
+
+CLI commands
+
+ng generate interface models/Product
