@@ -116,3 +116,7 @@ This hybrid approach gives you the stability of Git Flow while maintaining the s
 CLI commands
 
 ng generate interface models/Product
+
+ng test --include=src/app/pages/home/home.page.spec.ts
+
+ng test --include=src/app/pages/product-list/product-list.page.spec.ts

@@ -1,0 +1,108 @@
+ion-content {
+  --background: var(--ion-color-light);
+  /* Enable native scrolling */
+  //--overflow: auto;
+  //overflow: auto;
+  height: auto;
+}
+/* Hero Section */
+.hero {
+  background: var(--ion-color-primary);
+  color: white;
+  border-radius: 16px;
+  margin: 0 0;
+  padding: 1rem 1rem;
+  text-align: center;
+
+  .hero-title {
+    font-size: 2em;
+    margin-bottom: 8px;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2em;
+    opacity: 0.9;
+    margin-bottom: 24px;
+  }
+
+  .cta-button {
+    max-width: 200px;
+    margin: 0 auto;
+  }
+}
+
+/* Features Section */
+.features {
+  margin: 40px 0;
+
+  .feature-card {
+    background: var(--ion-color-light);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 8px;
+    text-align: center;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .feature-icon {
+      font-size: 2.5em;
+      margin-bottom: 16px;
+      color: var(--ion-color-primary);
+    }
+
+    h3 {
+      color: var(--ion-color-primary);
+      margin: 8px 0;
+    }
+  }
+}
+
+/* Favorites Section */
+.favorites {
+  margin: 40px 0;
+
+  .no-favorites {
+    text-align: center;
+    padding: 40px 0;
+    opacity: 0.6;
+
+    .empty-icon {
+      font-size: 3em;
+      margin-bottom: 16px;
+      color: var(--ion-color-medium);
+    }
+  }
+
+  .favorite-item {
+    --background: var(--ion-color-light);
+    border-radius: 8px;
+    margin: 8px 0;
+
+    .price {
+      color: var(--ion-color-success);
+      font-weight: bold;
+    }
+  }
+}
+
+/* Roadmap Section */
+.roadmap {
+  background: var(--ion-color-light-shade);
+  border-radius: 16px;
+  padding: 16px;
+  margin: 40px 0;
+
+  ion-item {
+    --background: transparent;
+  }
+}
+
+.section-title {
+  color: var(--ion-color-primary-shade);
+  font-size: 1.5em;
+  margin-bottom: 24px;
+  border-bottom: 2px solid var(--ion-color-primary-tint);
+  padding-bottom: 8px;
+}

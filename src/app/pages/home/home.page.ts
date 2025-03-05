@@ -1,5 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import {
   IonContent,
@@ -11,9 +12,24 @@ import {
   IonLabel,
   IonButton,
   IonIcon,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonItemSliding,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { star, starOutline } from 'ionicons/icons';
+import {
+  home,
+  list,
+  informationCircle,
+  star,
+  starOutline,
+  addCircle,
+  pricetag,
+  checkboxOutline,
+  cloudUpload,
+  statsChart,
+} from 'ionicons/icons';
 import { ProductService } from '../../services/product.service';
 
 @Component({
@@ -22,6 +38,7 @@ import { ProductService } from '../../services/product.service';
   styleUrls: ['./home.page.scss'],
   standalone: true,
   imports: [
+    RouterLink,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -37,6 +54,10 @@ import { ProductService } from '../../services/product.service';
     IonToolbar,
     CommonModule,
     FormsModule,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonItemSliding,
   ],
 })
 export class HomePage implements OnInit {
@@ -44,10 +65,21 @@ export class HomePage implements OnInit {
   products = this.productService.getProducts();
 
   constructor() {
-    addIcons({ star, starOutline });
+    addIcons({
+      addCircle,
+      pricetag,
+      star,
+      starOutline,
+      checkboxOutline,
+      cloudUpload,
+      statsChart,
+    });
   }
 
   ngOnInit() {}
+
+  // Get only favorite products
+  favoriteProducts = () => this.products().filter((p) => p.favorite);
 
   toggleFavorite(productId: string) {
     const product = this.products().find((p: any) => p.id === productId);

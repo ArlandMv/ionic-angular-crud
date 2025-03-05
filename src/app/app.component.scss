@@ -1,0 +1,42 @@
+ion-router-outlet {
+  display: block;
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+  contain: none;
+}
+
+ion-tab-bar {
+  height: 56px; /* doesnt react*/
+}
+
+/* Define SCSS variables or use CSS custom properties */
+:root {
+  --ion-color-primary: #3880ff;
+  --ion-color-secondary: #0cd1e8;
+  --ion-font-family: "Roboto", sans-serif;
+  --global-padding: 1rem;
+}
+
+ion-app {
+  font-family: var(--ion-font-family);
+  background-color: #f8f8f8;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  /* Global layout styling */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Utility classes for common spacing and text styles */
+.text-center {
+  text-align: center;
+}
+
+.mt-1 {
+  margin-top: 1rem;
+}
+.mb-1 {
+  margin-bottom: 1rem;
+}
