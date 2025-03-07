@@ -14,7 +14,7 @@
   <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
     <ion-item>
       <ion-label position="floating">Name</ion-label>
-      <ion-input formControlName="name"></ion-input>
+      <ion-input formControlName="name" [value]="productForm.get('name')?.value | uppercase"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Description</ion-label>
@@ -22,7 +22,10 @@
     </ion-item>
     <ion-item>
       <ion-label position="floating">Price</ion-label>
-      <ion-input type="number" formControlName="price"></ion-input>
+      <ion-input formControlName="price" type="number"></ion-input>
+      <ion-note slot="error" *ngIf="productForm.get('price')?.hasError('min')">
+        Price must be positive
+      </ion-note>
     </ion-item>
     <ion-button expand="block" type="submit" [disabled]="productForm.invalid">
       {{ editingProduct ? 'Update Product' : 'Add Product' }}
@@ -36,19 +39,15 @@
       <ion-label>
         <h2>{{ product.name }}</h2>
         <p>{{ product.description }}</p>
-        <p>${{ product.price | number:'1.2-2' }}</p>
+        <p>{{ product.price | currency:'CLP':'symbol':'1.0-0' }}</p>
       </ion-label>
       <!-- Toggle Bought Status -->
       <ion-button fill="clear" (click)="toggleBought(product)">
-        <ion-icon
-          [name]="product.bought ? 'checkmark-circle' : 'ellipse-outline'"
-        ></ion-icon>
+        <ion-icon [name]="product.bought ? 'checkmark-circle' : 'ellipse-outline'"></ion-icon>
       </ion-button>
       <!-- Toggle Favorite Status -->
       <ion-button fill="clear" (click)="toggleFavorite(product)">
-        <ion-icon
-          [name]="product.favorite ? 'star' : 'star-outline'"
-        ></ion-icon>
+        <ion-icon [name]="product.favorite ? 'star' : 'star-outline'"></ion-icon>
       </ion-button>
       <!-- Edit Product -->
       <ion-button fill="clear" (click)="editProduct(product)">

@@ -13,13 +13,14 @@ import { addIcons } from 'ionicons';
 import { add, trash, create, alertCircle } from 'ionicons/icons';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
+import { ClpPipe } from 'src/app/pipes/clppipe.pipe';
 
 @Component({
   selector: 'app-products-list',
   templateUrl: './products-list.page.html',
   styleUrls: ['./products-list.page.scss'],
   standalone: true,
-  imports: [IonicModule, ReactiveFormsModule, CommonModule],
+  imports: [IonicModule, ReactiveFormsModule, CommonModule, ClpPipe],
 })
 export class ProductsListPage implements OnInit {
   private productService = inject(ProductService);
@@ -29,14 +30,14 @@ export class ProductsListPage implements OnInit {
   productForm: FormGroup = this.fb.group({
     name: ['', Validators.required],
     description: [''],
-    price: [0, Validators.required],
+    price: [0, [Validators.required, Validators.min(1)]],
   });
 
   editingProduct: Product | null = null;
-  //editingProduct = signal<Product | null>(null);
 
-  showAddForm = signal(false);
-  deleteConfirmId = signal<string | null>(null);
+  // Move form to modal
+  //showAddForm = signal(false);
+  //deleteConfirmId = signal<string | null>(null);
 
   constructor() {
     addIcons({ create, trash, alertCircle, add });
