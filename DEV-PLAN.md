@@ -120,16 +120,16 @@ ng generate interface models/Product
 ng test --include=src/app/pages/home/home.page.spec.ts
 
 ---
-
+<!--
 bugs:
 
-- price cannot be negative
++ price cannot be negative
 - alert before deleting
 - order by price
 
 fix(products-list): resolve data validation issues
 
-- Prevent negative price values
++ Prevent negative price values
 - Add delete confirmation dialog
 - Fix form input types for prices
 
@@ -137,8 +137,14 @@ test(products-list): add unit testing CRUD
 
 feat(products-list): implement product sorting
 
-- Add price ascending/descending ordering
-- Persist sort preference in service
+- Add price ascending ordering
+- Add toggle price ordering button 
 - Update unit tests for sorting"
 
+//
 ng test --include=src/app/pages/product-list/product-list.page.spec.ts
+
+//backend cloud integration
+ng add @angular/fire@19.2 .0
+
+-->

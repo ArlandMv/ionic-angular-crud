@@ -34,7 +34,7 @@ A modern mobile-first CRUD application for product management built with:
 
 - Node.js 22+
 - npm 11+
-- Ionic CLI 7+
+- Ionic CLI 7+ 
 - Angular CLI 19+
 
 ### Setup
@@ -46,6 +46,7 @@ cd ionic-angular-crud
 
 # Install dependencies
 npm install
+npm install -g @ionic/cli
 
 # Start development server
 ionic serve
