@@ -10,7 +10,16 @@ import {
 } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { add, trash, create, alertCircle } from 'ionicons/icons';
+import {
+  add,
+  trash,
+  create,
+  alertCircle,
+  star,
+  starOutline,
+  ellipseOutline,
+  checkmarkCircle,
+} from 'ionicons/icons';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
 import { ClpPipe } from 'src/app/pipes/clppipe.pipe';
@@ -24,12 +33,13 @@ import { ClpPipe } from 'src/app/pipes/clppipe.pipe';
 })
 export class ProductsListPage implements OnInit {
   private productService = inject(ProductService);
-  products = this.productService.getProducts();
   private fb = inject(FormBuilder);
 
+  products = this.productService.getProducts();
+
   productForm: FormGroup = this.fb.group({
-    name: ['', Validators.required],
-    description: [''],
+    name: ['', [Validators.required, Validators.maxLength(33)]],
+    description: ['', [Validators.maxLength(100)]],
     price: [0, [Validators.required, Validators.min(1)]],
   });
 
@@ -40,7 +50,16 @@ export class ProductsListPage implements OnInit {
   //deleteConfirmId = signal<string | null>(null);
 
   constructor() {
-    addIcons({ create, trash, alertCircle, add });
+    addIcons({
+      create,
+      trash,
+      alertCircle,
+      add,
+      star,
+      starOutline,
+      ellipseOutline,
+      checkmarkCircle,
+    });
   }
 
   ngOnInit(): void {
@@ -53,7 +72,7 @@ export class ProductsListPage implements OnInit {
 
   ngOnDestroy(): void {
     console.log('ProductsListPage destroyed');
-    // save state to localStorage.
+    console.log('Future Feature: save state to localStorage.');
   }
 
   onSubmit(): void {
@@ -65,11 +84,12 @@ export class ProductsListPage implements OnInit {
       });
       this.editingProduct = null;
     } else {
-      this.productService.addProduct({
+      const newProduct: Omit<Product, 'id' | 'favorite' | 'bought'> = {
         name: this.productForm.value.name,
         description: this.productForm.value.description,
         price: this.productForm.value.price,
-      });
+      };
+      this.productService.addProduct(newProduct);
     }
     this.productForm.reset();
   }
@@ -83,6 +103,18 @@ export class ProductsListPage implements OnInit {
     });
   }
 
+  /**
+   * Resets the form and clears any editing state.
+   */
+  cancel(): void {
+    this.editingProduct = null;
+    this.productForm.reset();
+  }
+
+  /**
+   * Deletes a product by its id.
+   * @param id The id of the product to delete.
+   */
   deleteProduct(id: string): void {
     this.productService.deleteProduct(id);
   }

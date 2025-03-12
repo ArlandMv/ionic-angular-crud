@@ -14,7 +14,10 @@
   <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
     <ion-item>
       <ion-label position="floating">Name</ion-label>
-      <ion-input formControlName="name" [value]="productForm.get('name')?.value | uppercase"></ion-input>
+      <ion-input formControlName="name"></ion-input>
+      <ion-note slot="error" *ngIf="productForm.get('price')?.hasError('min')">
+        Price must be greater than 0.
+      </ion-note>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Description</ion-label>
@@ -30,6 +33,15 @@
     <ion-button expand="block" type="submit" [disabled]="productForm.invalid">
       {{ editingProduct ? 'Update Product' : 'Add Product' }}
     </ion-button>
+    <ion-button
+      expand="block"
+      type="button"
+      (click)="cancel()"
+      *ngIf="editingProduct"
+      id="cancel-btn"
+    >
+      Cancel
+    </ion-button>
   </form>
 
   <!-- Products List -->
@@ -43,18 +55,28 @@
       </ion-label>
       <!-- Toggle Bought Status -->
       <ion-button fill="clear" (click)="toggleBought(product)">
-        <ion-icon [name]="product.bought ? 'checkmark-circle' : 'ellipse-outline'"></ion-icon>
+        <ion-icon
+          [name]="product.bought ? 'checkmark-circle' : 'ellipse-outline'"
+        ></ion-icon>
       </ion-button>
       <!-- Toggle Favorite Status -->
       <ion-button fill="clear" (click)="toggleFavorite(product)">
-        <ion-icon [name]="product.favorite ? 'star' : 'star-outline'"></ion-icon>
+        <ion-icon
+          [name]="product.favorite ? 'star' : 'star-outline'"
+        ></ion-icon>
       </ion-button>
       <!-- Edit Product -->
       <ion-button fill="clear" (click)="editProduct(product)">
         <ion-icon name="create"></ion-icon>
       </ion-button>
       <!-- Delete Product -->
-      <ion-button fill="clear" (click)="deleteProduct(product.id)">
+      <ion-button
+        fill="clear"
+        (click)="deleteProduct(product.id)"
+        color="danger"
+        [id]="'delete-btn-' + product.id"
+        class="delete-btn"
+      >
         <ion-icon name="trash"></ion-icon>
       </ion-button>
     </ion-item>

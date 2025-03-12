@@ -12,7 +12,7 @@ export class ProductService {
   private initializeProducts(): void {
     const initialData = [
       {
-        id: this.generateId(),
+        id: 'm856pnjw6sa28b8h6',
         name: 'Ionic Book',
         description: 'Learn Ionic development',
         price: 39000,
@@ -20,7 +20,7 @@ export class ProductService {
         bought: false,
       },
       {
-        id: this.generateId(),
+        id: 'm856pnjxcx8ivsfwt',
         name: 'Angular Guide',
         description: 'Master Angular framework',
         price: 29000,
