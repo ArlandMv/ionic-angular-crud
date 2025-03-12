@@ -1,14 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductsListPage } from './products-list.page';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, AlertController } from '@ionic/angular';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ClpPipe } from 'src/app/pipes/clppipe.pipe';
 import { ProductService } from '../../services/product.service';
 import { By } from '@angular/platform-browser';
 import { Product } from '../../models/product';
-
-//import { browser, by, element, ExpectedConditions } from 'protractor';
 
 // Create a spy object for ProductService with the methods we use.
 const productServiceSpy = jasmine.createSpyObj('ProductService', [
@@ -24,8 +22,11 @@ productServiceSpy.getProducts.and.returnValue(() => []);
 describe('ProductsListPage', () => {
   let component: ProductsListPage;
   let fixture: ComponentFixture<ProductsListPage>;
+  let alertControllerSpy: jasmine.SpyObj<AlertController>;
 
   beforeEach(async () => {
+    alertControllerSpy = jasmine.createSpyObj('AlertController', ['create']);
+
     await TestBed.configureTestingModule({
       imports: [
         IonicModule.forRoot(),
@@ -36,6 +37,7 @@ describe('ProductsListPage', () => {
       providers: [
         FormBuilder,
         { provide: ProductService, useValue: productServiceSpy },
+        { provide: AlertController, useValue: alertControllerSpy },
       ],
     }).compileComponents();
 
@@ -138,6 +140,7 @@ describe('ProductsListPage', () => {
       );
     });
 
+    /*
     it('should call deleteProduct when the delete button is clicked', async () => {
       // Arrange: Provide a fake product in the list.
       const fakeProduct: Product = {
@@ -149,7 +152,7 @@ describe('ProductsListPage', () => {
         bought: false,
       };
       // Override getProducts() to return the fake product.
-      productServiceSpy.getProducts.and.returnValue(() => [fakeProduct]);
+      productS erviceSpy.getProducts.and.returnValue(() => [fakeProduct]);
       component.products = productServiceSpy.getProducts();
       fixture.detectChanges();
       await fixture.whenStable();
@@ -165,29 +168,115 @@ describe('ProductsListPage', () => {
       // Assert: Verify that deleteProduct was called with the correct id.
       expect(productServiceSpy.deleteProduct).toHaveBeenCalledWith('456');
     });
+    */
 
-    // Commenting out the toggleBought test since the functionality is not yet applied.
-    /*
-    it('should call toggleBought when the toggle bought button is clicked', () => {
+    it('should call deleteProduct when user confirms deletion', async () => {
+      // Arrange: Create a fake alert object that simulates user confirming deletion.
+      const fakeAlert = {
+        present: () => Promise.resolve(),
+        onDidDismiss: () => Promise.resolve({ role: 'confirm' }),
+      };
+      alertControllerSpy.create.and.returnValue(
+        Promise.resolve(fakeAlert as any)
+      );
+
+      // Act: Call confirmDelete and wait for it to complete.
+      const role = await component.confirmDelete('456');
+      fixture.detectChanges();
+
+      // Assert: Check that the alert was created and the service's deleteProduct was called.
+      expect(alertControllerSpy.create).toHaveBeenCalled();
+      //expect(role).toBe('confirm');
+      expect(productServiceSpy.deleteProduct).toHaveBeenCalledWith('456');
+    });
+
+    it('should not call deleteProduct when user cancels deletion', async () => {
+      // Arrange: Create a fake alert object that simulates user canceling deletion.
+      const fakeAlert = {
+        present: () => Promise.resolve(),
+        onDidDismiss: () => Promise.resolve({ role: 'cancel' }),
+      };
+      alertControllerSpy.create.and.returnValue(
+        Promise.resolve(fakeAlert as any)
+      );
+
+      // Act: Call confirmDelete and wait for it to complete.
+      const role = await component.confirmDelete('456');
+      fixture.detectChanges();
+
+      // Assert: Check that the alert was created but deleteProduct was not called.
+      expect(alertControllerSpy.create).toHaveBeenCalled();
+      //expect(role).toBe('cancel');
+      expect(productServiceSpy.deleteProduct).not.toHaveBeenCalled();
+    });
+
+    // Toggle Buttons
+    it('should call toggleBought when the toggle bought button is clicked', async () => {
       const fakeProduct: Product = {
         id: '789',
         name: 'Product 2',
         description: 'Desc',
         price: 30,
         favorite: false,
-        bought: false
+        bought: false,
       };
       productServiceSpy.getProducts.and.returnValue(() => [fakeProduct]);
+      component.products = productServiceSpy.getProducts();
       fixture.detectChanges();
-      const toggleButton = fixture.debugElement.queryAll(By.css('ion-button'))
-        .find(btn => btn.nativeElement.innerHTML.includes('ellipse-outline'));
-      expect(toggleButton).toBeTruthy();
-      toggleButton!.triggerEventHandler('click', null);
+      await fixture.whenStable();
       fixture.detectChanges();
-      expect(productServiceSpy.updateProduct).toHaveBeenCalledWith('789', { bought: true });
-    });
-    */
 
+      // ACT
+      const toggleBoughtButton: HTMLElement =
+        fixture.nativeElement.querySelector('#toggle-bought-btn-789');
+      console.log('Toggle Bought Button:', toggleBoughtButton);
+      expect(toggleBoughtButton).toBeTruthy();
+
+      toggleBoughtButton.click();
+      fixture.detectChanges();
+
+      // ASSERT
+      expect(productServiceSpy.updateProduct).toHaveBeenCalledWith('789', {
+        bought: true,
+      });
+    });
+
+    it('should call toggleFavorite when the toggle favorite button is clicked', async () => {
+      // Arrange: Provide a fake product in the list.
+      const fakeProduct: Product = {
+        id: '789',
+        name: 'Product 2',
+        description: 'Desc',
+        price: 30,
+        favorite: false,
+        bought: false,
+      };
+
+      // Override getProducts() to return the fake product.
+      productServiceSpy.getProducts.and.returnValue(() => [fakeProduct]);
+      // Update the component’s products property.
+      component.products = productServiceSpy.getProducts();
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      // Act: Query for the toggle-favorite button using the conditional id.
+      const toggleFavoriteButton: HTMLElement =
+        fixture.nativeElement.querySelector('#toggle-favorite-btn-789');
+      console.log('Toggle Favorite Button:', toggleFavoriteButton);
+      expect(toggleFavoriteButton).toBeTruthy();
+
+      // Simulate a click on the toggle-favorite button.
+      toggleFavoriteButton.click();
+      fixture.detectChanges();
+
+      // Assert: Verify that updateProduct was called with the toggled "favorite" status.
+      expect(productServiceSpy.updateProduct).toHaveBeenCalledWith('789', {
+        favorite: true,
+      });
+    });
+
+    // Cancel update button for better UX
     it('should reset the form when the cancel button is clicked', () => {
       component.editingProduct = {
         id: '321',
@@ -218,3 +307,5 @@ describe('ProductsListPage', () => {
     });
   });
 });
+
+//act as a senior developer and review my html, ts and test file components to

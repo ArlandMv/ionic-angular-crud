@@ -8,7 +8,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, AlertController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import {
   add,
@@ -24,6 +24,8 @@ import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
 import { ClpPipe } from 'src/app/pipes/clppipe.pipe';
 
+import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-products-list',
   templateUrl: './products-list.page.html',
@@ -34,6 +36,8 @@ import { ClpPipe } from 'src/app/pipes/clppipe.pipe';
 export class ProductsListPage implements OnInit {
   private productService = inject(ProductService);
   private fb = inject(FormBuilder);
+  private alertController = inject(AlertController);
+  isTest = !environment.production;
 
   products = this.productService.getProducts();
 
@@ -117,6 +121,22 @@ export class ProductsListPage implements OnInit {
    */
   deleteProduct(id: string): void {
     this.productService.deleteProduct(id);
+    //this.confirmDelete(id);
+  }
+
+  async confirmDelete(productId: string) {
+    const alert = await this.alertController.create({
+      header: 'Confirm Deletetion',
+      message: 'are you sure you want to delete this product?',
+      buttons: [
+        { text: 'Cancel', role: 'cancel' },
+        { text: 'Delete', handler: () => this.deleteProduct(productId) },
+      ],
+    });
+    await alert.present();
+    //check if optional
+    //const { role } = await alert.onDidDismiss();
+    //return role;
   }
 
   toggleBought(product: Product): void {

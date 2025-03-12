@@ -34,11 +34,11 @@
       {{ editingProduct ? 'Update Product' : 'Add Product' }}
     </ion-button>
     <ion-button
+      id="cancel-btn"
       expand="block"
       type="button"
       (click)="cancel()"
       *ngIf="editingProduct"
-      id="cancel-btn"
     >
       Cancel
     </ion-button>
@@ -54,13 +54,21 @@
         <p>{{ product.price | currency:'CLP':'symbol':'1.0-0' }}</p>
       </ion-label>
       <!-- Toggle Bought Status -->
-      <ion-button fill="clear" (click)="toggleBought(product)">
+      <ion-button
+        fill="clear"
+        (click)="toggleBought(product)"
+        [attr.id]="isTest ? 'toggle-bought-btn-' + product.id : null"
+      >
         <ion-icon
           [name]="product.bought ? 'checkmark-circle' : 'ellipse-outline'"
         ></ion-icon>
       </ion-button>
       <!-- Toggle Favorite Status -->
-      <ion-button fill="clear" (click)="toggleFavorite(product)">
+      <ion-button
+        fill="clear"
+        (click)="toggleFavorite(product)"
+        [attr.id]="isTest ? 'toggle-favorite-btn-' + product.id : null"
+      >
         <ion-icon
           [name]="product.favorite ? 'star' : 'star-outline'"
         ></ion-icon>
@@ -72,7 +80,7 @@
       <!-- Delete Product -->
       <ion-button
         fill="clear"
-        (click)="deleteProduct(product.id)"
+        (click)="confirmDelete(product.id)"
         color="danger"
         [id]="'delete-btn-' + product.id"
         class="delete-btn"
