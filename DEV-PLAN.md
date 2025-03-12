@@ -121,15 +121,17 @@ ng test --include=src/app/pages/home/home.page.spec.ts
 
 ---
 
+<!--
 bugs:
 
-- price cannot be negative
++ price cannot be negative
 - alert before deleting
 - order by price
 
 fix(products-list): resolve data validation issues
 
-- Prevent negative price values
++ Prevent negative price values
+- unit tets
 - Add delete confirmation dialog
 - Fix form input types for prices
 
@@ -137,8 +139,34 @@ test(products-list): add unit testing CRUD
 
 feat(products-list): implement product sorting
 
-- Add price ascending/descending ordering
-- Persist sort preference in service
+- Add price ascending ordering (easy)
+- Add toggle price ordering button
 - Update unit tests for sorting"
 
+
+
+feat()
+- searchableSelectComponent
+- implement in homepage
+- Update unit tests
+- src: https://youtu.be/bbENzQvJjJo?si=Pqn9bawVIHZTDnSw
+
+
+
+
+
+UI/UX Enhancements:
+
+Cancel/Reset Button: Adding a cancel button that resets the form (and clears any editing state) would improve the UX, especially if a user decides not to complete an edit.
+Responsive Feedback: You might want to disable buttons or show a loading spinner while a service call is in progress.
+
+
+//
 ng test --include=src/app/pages/product-list/product-list.page.spec.ts
+
+ng test --include=src/app/pages/about/about.page.spec.ts
+
+//backend cloud integration
+ng add @angular/fire@19.2 .0
+
+-->
