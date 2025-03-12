@@ -36,6 +36,14 @@ export class ProductService {
   }
 
   addProduct(product: Omit<Product, 'id' | 'favorite' | 'bought'>): void {
+    const exists = this.products().some(
+      (p) => p.name.trim().toLowerCase() === product.name.trim().toLowerCase()
+    );
+    if (exists) {
+      console.error('Product already exists');
+      return;
+      //TODO: Display a validation error in the UI.
+    }
     this.products.update((items) => [
       ...items,
       {
